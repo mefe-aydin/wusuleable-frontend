@@ -22,6 +22,13 @@ You can start editing the page by modifying `pages/index.tsx`. The page auto-upd
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
 
+## Backend / API setup
+
+- Frontend code calls our **BFF** endpoints under `/api/**` via `src/api/*`.
+- Those BFF routes proxy to the backend using `BACKEND_BASE_URL`.
+
+Environment variables: see `docs/env.md`.
+
 This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More
