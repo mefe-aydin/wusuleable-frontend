@@ -1,9 +1,11 @@
 import { SiteLayout } from "@/layouts/SiteLayout";
 
-export default function Home() {
+export default function FaqPage() {
   return (
     <SiteLayout>
-      <div className="py-10">burası ana sayfa</div>
+      <div>faq</div>
     </SiteLayout>
   );
 }
+
+

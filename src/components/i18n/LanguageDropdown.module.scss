@@ -1,0 +1,118 @@
+@use "@/styles/tokens" as *;
+
+.root {
+  position: relative;
+}
+
+.summary {
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2.5rem;
+  padding: 0 0.875rem;
+  border-radius: $radius-pill;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: $color-muted;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary:hover {
+  background: $color-primary-soft;
+  color: $color-primary;
+}
+
+.flag {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 9999px;
+  display: block;
+}
+
+.chev {
+  width: 0.75rem;
+  height: 0.75rem;
+  opacity: 0.75;
+}
+
+.menu {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 0.5rem);
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 90vw;
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.625rem;
+  border-radius: 0.875rem;
+  background: $color-bg;
+  border: 1px solid $color-border;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.875rem;
+  border-radius: 0.75rem;
+  text-decoration: none;
+  color: $color-text;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.item:hover {
+  background: $color-primary-soft;
+  color: $color-primary;
+}
+
+.itemActive {
+  background: $color-primary-soft;
+  color: $color-primary;
+}
+
+@media (prefers-color-scheme: dark) {
+  .summary {
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .summary:hover {
+    background: $color-primary-soft-dark;
+    color: $color-primary-dark;
+  }
+
+  .menu {
+    background: $color-bg-dark;
+    border: 1px solid $color-border-dark;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .item {
+    color: $color-text-dark;
+  }
+
+  .item:hover {
+    background: $color-primary-soft-dark;
+    color: $color-primary-dark;
+  }
+
+  .itemActive {
+    background: $color-primary-soft-dark;
+    color: $color-primary-dark;
+  }
+
+}
+
+

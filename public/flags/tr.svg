@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" role="img" aria-label="Türkiye">
+  <rect width="900" height="600" fill="#e30a17"/>
+  <circle cx="350" cy="300" r="180" fill="#fff"/>
+  <circle cx="400" cy="300" r="144" fill="#e30a17"/>
+  <path d="M 540 300 l 92 -30 -56 78 56 78 -92 -30 -56 78 0 -96 -92 -30 92 -30 0 -96 z" fill="#fff" transform="translate(-25,0)"/>
+</svg>
+
+

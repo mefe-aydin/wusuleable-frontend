@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
-import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
+import { Header } from "@/components/layout/Header";
+import styles from "./SiteLayout.module.scss";
 
 type Props = {
   children: ReactNode;
@@ -8,13 +9,15 @@ type Props = {
 
 export function SiteLayout({ children }: Props) {
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-950 dark:bg-black dark:text-zinc-50">
-      <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6">
-        <div className="text-sm font-semibold tracking-tight">Wusuleable</div>
-        <LanguageSwitcher />
-      </header>
-      <main className="mx-auto w-full max-w-6xl px-6 pb-20">{children}</main>
-      <footer className="mx-auto w-full max-w-6xl px-6 py-10 text-xs text-zinc-500 dark:text-zinc-400">
+    <div className={styles.root}>
+      <a href="#main-content" className={styles.skipLink}>
+        İçeriğe atla
+      </a>
+      <Header />
+      <main id="main-content" className={styles.main}>
+        {children}
+      </main>
+      <footer className={styles.footer}>
         © {new Date().getFullYear()} Wusuleable
       </footer>
     </div>
