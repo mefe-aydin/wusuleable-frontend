@@ -2,6 +2,12 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin", "latin-ext"],
+  display: "swap",
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -15,5 +21,9 @@ export default function App({ Component, pageProps }: AppProps) {
     document.cookie = `NEXT_LOCALE=${encodeURIComponent(locale)}; Path=/; Max-Age=31536000; SameSite=Lax`;
   }, [router.locale]);
 
-  return <Component {...pageProps} />;
+  return (
+    <div className={inter.className}>
+      <Component {...pageProps} />
+    </div>
+  );
 }

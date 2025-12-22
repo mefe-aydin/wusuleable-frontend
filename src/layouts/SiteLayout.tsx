@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import styles from "./SiteLayout.module.scss";
 
@@ -17,9 +18,7 @@ export function SiteLayout({ children }: Props) {
       <main id="main-content" className={styles.main}>
         {children}
       </main>
-      <footer className={styles.footer}>
-        © {new Date().getFullYear()} Wusuleable
-      </footer>
+      <Footer />
     </div>
   );
 }

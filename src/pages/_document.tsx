@@ -15,14 +15,14 @@ export default class MyDocument extends Document<{ locale?: string }> {
     const locale = this.props.locale ?? "en";
     const htmlLang = HTML_LANG_BY_LOCALE[locale] ?? locale;
 
-    return (
+  return (
       <Html lang={htmlLang}>
-        <Head />
-        <body className="antialiased">
-          <Main />
-          <NextScript />
-        </body>
-      </Html>
-    );
+      <Head />
+      <body className="antialiased">
+        <Main />
+        <NextScript />
+      </body>
+    </Html>
+  );
   }
 }

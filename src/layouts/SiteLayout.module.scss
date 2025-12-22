@@ -14,15 +14,6 @@
   padding-bottom: 5rem; // ~ pb-20
 }
 
-.footer {
-  margin: 0 auto;
-  max-width: $container-max;
-  width: 100%;
-  padding: 2.5rem $container-pad;
-  font-size: 0.75rem;
-  color: #71717a;
-}
-
 .skipLink {
   position: absolute;
   left: 12px;
@@ -47,9 +38,7 @@
     background: #000;
     color: #fafafa;
   }
-  .footer {
-    color: #a1a1aa;
-  }
+  // footer styling moved to src/components/layout/Footer.module.scss
 }
 
 

@@ -1,0 +1,880 @@
+@use "@/styles/tokens" as *;
+
+.hero {
+  padding: 5rem 0 4rem;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  align-items: center;
+  gap: 4rem;
+}
+
+.heroContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.badge {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: $radius-pill;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: $color-primary;
+  background: $color-primary-soft;
+}
+
+.title {
+  margin: 1.5rem 0 0;
+  font-size: 3.5rem;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  font-weight: 800;
+}
+
+.subtitle {
+  margin: 1.25rem 0 0;
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: #52525b;
+}
+
+.actions {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.heroIllustration {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.illustration {
+  width: 100%;
+  height: auto;
+  max-width: 600px;
+  filter: drop-shadow(0 20px 50px rgba(37, 99, 235, 0.1));
+}
+
+// Trust / Why Section
+.features {
+  padding: 6rem 0;
+}
+
+.featuresHeader {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.featuresTitle {
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+
+.featuresSubtitle {
+  font-size: 1.125rem;
+  color: #52525b;
+  max-width: 32rem;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.card {
+  padding: 2.5rem;
+  border-radius: 1.5rem;
+  background: white;
+  border: 1px solid $color-border;
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(37, 99, 235, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+}
+
+.iconBox {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  background: $color-primary-soft;
+  color: $color-primary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.cardDesc {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #52525b;
+}
+
+// How It Works Section
+.howItWorks {
+  padding: 6rem 0;
+  background: #fdfdfd;
+  border-radius: 3rem;
+  margin: 2rem 0;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  position: relative;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.stepNumber {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid $color-primary;
+  color: $color-primary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 800;
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.1);
+}
+
+.stepTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.stepDesc {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #52525b;
+}
+
+// Product Features Section
+.productFeatures {
+  padding: 6rem 0;
+}
+
+.compliance {
+  padding: 6rem 0;
+}
+
+.integrations {
+  padding: 6rem 0;
+}
+
+.integrationGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.integrationCard {
+  padding: 2rem;
+  border-radius: 1.25rem;
+  background: white;
+  border: 1px solid $color-border;
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.integrationCard:hover {
+  transform: translateY(-3px);
+  border-color: rgba(37, 99, 235, 0.2);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.04);
+}
+
+.integrationTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.integrationIconBox {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.9rem;
+  background: $color-primary-soft;
+  color: $color-primary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.integrationIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.integrationBadge {
+  display: inline-flex;
+  align-items: center;
+  height: 1.75rem;
+  padding: 0 0.65rem;
+  border-radius: $radius-pill;
+  background: $color-primary-soft;
+  color: $color-primary;
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.integrationTitle {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.integrationDesc {
+  margin: 0.75rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #52525b;
+}
+
+.integrationFooter {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.integrationLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: $color-primary;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.integrationLink:hover {
+  text-decoration: underline;
+}
+
+.complianceGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.complianceCard {
+  padding: 2rem;
+  border-radius: 1.25rem;
+  background: white;
+  border: 1px solid $color-border;
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.complianceCard:hover {
+  transform: translateY(-3px);
+  border-color: rgba(37, 99, 235, 0.2);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.04);
+}
+
+.complianceIcon {
+  width: 2.25rem;
+  height: 2.25rem;
+  color: $color-primary;
+  margin-bottom: 0.75rem;
+}
+
+.complianceTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.complianceDesc {
+  margin: 0.75rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #52525b;
+}
+
+.complianceFooter {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.complianceLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: $color-primary;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.complianceLink:hover {
+  text-decoration: underline;
+}
+
+.pricingBridge {
+  padding: 6rem 0;
+}
+
+.billingToggle {
+  margin: -1.5rem auto 2rem;
+  display: inline-flex;
+  gap: 0.25rem;
+  padding: 0.35rem;
+  border-radius: $radius-pill;
+  background: white;
+  border: 1px solid $color-border;
+}
+
+.billingBtnLabel {
+  display: inline-flex;
+  align-items: center;
+}
+
+.billingBtnPill {
+  margin-left: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  height: 1.35rem;
+  padding: 0 0.55rem;
+  border-radius: $radius-pill;
+  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.billingBtn {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  height: 2.25rem;
+  padding: 0 1rem;
+  border-radius: $radius-pill;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: #52525b;
+  background: transparent;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.billingBtnActive {
+  background: $color-primary-soft;
+  color: $color-primary;
+}
+
+.planGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.planCard {
+  position: relative;
+  padding: 2.25rem;
+  border-radius: 1.5rem;
+  background: white;
+  border: 1px solid $color-border;
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.planCard:hover {
+  transform: translateY(-3px);
+  border-color: rgba(37, 99, 235, 0.2);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.04);
+}
+
+.planCardPopular {
+  border-color: rgba(37, 99, 235, 0.28);
+  box-shadow: 0 18px 38px rgba(37, 99, 235, 0.08);
+}
+
+.planBadge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: $radius-pill;
+  background: $color-primary-soft;
+  color: $color-primary;
+  font-weight: 900;
+  font-size: 0.8rem;
+  letter-spacing: -0.01em;
+}
+
+.planUsage {
+  display: inline-flex;
+  align-items: center;
+  height: 1.6rem;
+  padding: 0 0.65rem;
+  border-radius: $radius-pill;
+  background: #f4f4f5;
+  color: #27272a;
+  font-weight: 900;
+  font-size: 0.8rem;
+  letter-spacing: -0.01em;
+}
+
+.planName {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+
+.planPrice {
+  margin-top: 0.75rem;
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+.planPerks {
+  margin: 1.25rem 0 0;
+  padding-left: 1.1rem;
+  color: #52525b;
+  line-height: 1.6;
+}
+
+.planPerks li {
+  margin: 0.4rem 0;
+}
+
+.pricingBridgeFooter {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.pricingBridgeLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: $color-primary;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.pricingBridgeLink:hover {
+  text-decoration: underline;
+}
+
+.faq {
+  padding: 6rem 0;
+}
+
+.faqSimpleGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.faqSimpleCard {
+  padding: 2.25rem;
+  border-radius: 1.75rem;
+  background: white;
+  border: 1px solid $color-border;
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.faqSimpleCardPrimary {
+  padding: 2.25rem;
+  border-radius: 1.75rem;
+  background: linear-gradient(
+    135deg,
+    rgba(37, 99, 235, 0.08) 0%,
+    rgba(6, 182, 212, 0.06) 100%
+  );
+  border: 1px solid rgba(37, 99, 235, 0.16);
+  box-shadow: 0 14px 34px rgba(37, 99, 235, 0.06);
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.faqSimpleCard:hover,
+.faqSimpleCardPrimary:hover {
+  transform: translateY(-2px);
+  border-color: rgba(37, 99, 235, 0.22);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.04);
+}
+
+.faqSimpleTitle {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.faqSimpleDesc {
+  margin: 0.85rem 0 0;
+  color: #52525b;
+  line-height: 1.7;
+}
+
+.faqSimpleActions {
+  margin-top: 1.25rem;
+}
+
+.widgetCta {
+  padding: 6rem 0;
+}
+
+.widgetCtaInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2.5rem;
+  border-radius: 1.75rem;
+  background: $color-primary-soft;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+}
+
+.widgetCtaTitle {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.widgetCtaDesc {
+  margin: 0.75rem 0 0;
+  color: #52525b;
+  line-height: 1.7;
+  max-width: 44rem;
+}
+
+.widgetCtaAction {
+  flex: 0 0 auto;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.featureCard {
+  padding: 2rem;
+  border-radius: 1.25rem;
+  background: white;
+  border: 1px solid $color-border;
+  transition: all 200ms ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.featureCard:hover {
+  background: $color-primary-soft;
+  border-color: rgba(37, 99, 235, 0.2);
+  transform: scale(1.02);
+}
+
+.featureIcon {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: $color-primary;
+  margin-bottom: 0.5rem;
+}
+
+.featureTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.featureDesc {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: #71717a;
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center;
+    padding: 4rem 0;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+
+  .featureGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .complianceGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .integrationGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .widgetCtaInner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .planGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .faqSimpleGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .featureGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .features {
+    padding: 4rem 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .badge {
+    color: $color-primary-dark;
+    background: $color-primary-soft-dark;
+  }
+
+  .subtitle,
+  .featuresSubtitle,
+  .cardDesc {
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .card {
+    background: #09090b;
+    border-color: $color-border-dark;
+  }
+
+  .card:hover {
+    border-color: rgba(96, 165, 250, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .iconBox {
+    background: $color-primary-soft-dark;
+    color: $color-primary-dark;
+  }
+
+  .howItWorks {
+    background: #09090b;
+    border: 1px solid $color-border-dark;
+  }
+
+  .stepNumber {
+    background: #111827;
+    border-color: $color-primary-dark;
+    color: $color-primary-dark;
+  }
+
+  .stepDesc {
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .featureCard {
+    background: #111827;
+    border-color: $color-border-dark;
+  }
+
+  .featureCard:hover {
+    background: $color-primary-soft-dark;
+    border-color: rgba(96, 165, 250, 0.3);
+  }
+
+  .featureDesc {
+    color: #a1a1aa;
+  }
+
+  .complianceCard {
+    background: #111827;
+    border-color: $color-border-dark;
+  }
+
+  .complianceCard:hover {
+    border-color: rgba(96, 165, 250, 0.3);
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.4);
+  }
+
+  .complianceIcon {
+    color: $color-primary-dark;
+  }
+
+  .complianceDesc {
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .complianceLink {
+    color: $color-primary-dark;
+  }
+
+  .integrationCard {
+    background: #111827;
+    border-color: $color-border-dark;
+  }
+
+  .integrationCard:hover {
+    border-color: rgba(96, 165, 250, 0.3);
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.4);
+  }
+
+  .integrationIconBox {
+    background: $color-primary-soft-dark;
+    color: $color-primary-dark;
+  }
+
+  .integrationBadge {
+    background: $color-primary-soft-dark;
+    color: $color-primary-dark;
+  }
+
+  .integrationDesc {
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .integrationLink {
+    color: $color-primary-dark;
+  }
+
+  .widgetCtaInner {
+    background: $color-primary-soft-dark;
+    border-color: rgba(96, 165, 250, 0.25);
+  }
+
+  .widgetCtaDesc {
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .billingToggle {
+    background: #111827;
+    border-color: $color-border-dark;
+  }
+
+  .billingBtn {
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .billingBtnActive {
+    background: $color-primary-soft-dark;
+    color: $color-primary-dark;
+  }
+
+  .billingBtnPill {
+    background: linear-gradient(135deg, #60a5fa 0%, #22d3ee 100%);
+    color: #0b1220;
+  }
+
+  .planCard {
+    background: #111827;
+    border-color: $color-border-dark;
+  }
+
+  .planCard:hover {
+    border-color: rgba(96, 165, 250, 0.3);
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.4);
+  }
+
+  .planCardPopular {
+    border-color: rgba(96, 165, 250, 0.35);
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.45);
+  }
+
+  .planBadge {
+    background: $color-primary-soft-dark;
+    color: $color-primary-dark;
+  }
+
+  .planUsage {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.86);
+  }
+
+  .planPerks {
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .pricingBridgeLink {
+    color: $color-primary-dark;
+  }
+
+  .faqSimpleCard {
+    background: #111827;
+    border-color: $color-border-dark;
+  }
+
+  .faqSimpleCardPrimary {
+    background: linear-gradient(
+      135deg,
+      rgba(96, 165, 250, 0.16) 0%,
+      rgba(34, 211, 238, 0.12) 100%
+    );
+    border-color: rgba(96, 165, 250, 0.22);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  }
+
+  .faqSimpleDesc {
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+}
+
+

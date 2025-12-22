@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { LanguageDropdown } from "@/components/i18n/LanguageDropdown";
+import { Button } from "@/components/ui/Button";
 
 import styles from "./Header.module.scss";
 
@@ -9,8 +10,13 @@ export function Header() {
   const router = useRouter();
   const pathname = router.pathname;
   const locale = router.locale;
-  const widgetLabel =
-    locale === "tr" ? "Erişilebilirlik Eklentisi" : "Accessibility Widget";
+  const isTr = locale === "tr";
+  const widgetLabel = isTr ? "Erişilebilirlik Eklentisi" : "Accessibility Widget";
+  const pricingLabel = isTr ? "Fiyatlandırma" : "Pricing";
+  const faqLabel = isTr ? "SSS" : "FAQ";
+  const contactLabel = isTr ? "İletişim" : "Contact";
+  const loginLabel = isTr ? "Oturum Aç" : "Sign in";
+  const signupLabel = isTr ? "Kayıt Ol" : "Sign up";
 
   return (
     <header className={styles.header}>
@@ -47,7 +53,7 @@ export function Header() {
                     pathname === "/pricing" ? styles.navLinkActive : "",
                   ].join(" ")}
                 >
-                  Fiyatlandırma
+                  {pricingLabel}
                 </Link>
               </li>
               <li>
@@ -59,7 +65,19 @@ export function Header() {
                     pathname === "/faq" ? styles.navLinkActive : "",
                   ].join(" ")}
                 >
-                  SSS
+                  {faqLabel}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  aria-current={pathname === "/contact" ? "page" : undefined}
+                  className={[
+                    styles.navLink,
+                    pathname === "/contact" ? styles.navLinkActive : "",
+                  ].join(" ")}
+                >
+                  {contactLabel}
                 </Link>
               </li>
             </ul>
@@ -67,6 +85,12 @@ export function Header() {
         </div>
 
         <div className={styles.right}>
+          <Button href="/login" variant="primary">
+            {loginLabel}
+          </Button>
+          <Button href="/signup" variant="secondary">
+            {signupLabel}
+          </Button>
           <LanguageDropdown />
         </div>
       </div>
