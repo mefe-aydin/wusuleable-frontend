@@ -24,10 +24,14 @@ export function Header() {
         <div className={styles.left}>
           <Link href="/" className={styles.brand} aria-label="Wusuleable Ana Sayfa">
             <img
-              src="/accessability_logo.png"
-              alt="Wusuleable"
+              src="/accessability_logo.svg"
+              alt=""
               className={styles.logo}
             />
+            <div className={styles.brandNameWrapper}>
+              <span className={styles.brandWusul}>Wusul</span>
+              <span className={styles.brandAble}>eable</span>
+            </div>
           </Link>
 
           <nav aria-label="Primary">
