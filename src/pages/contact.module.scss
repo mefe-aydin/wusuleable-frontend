@@ -1,0 +1,466 @@
+@use "@/styles/tokens" as *;
+
+.page {
+  padding: 4.5rem 0 5rem;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #1e293b 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: 1.15rem;
+  color: #64748b;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.card {
+  border-radius: 2rem;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  background: #ffffff;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.06);
+}
+
+.cardGlow {
+  position: absolute;
+  inset: -200px -120px auto -120px;
+  height: 420px;
+  background:
+    radial-gradient(closest-side at 30% 40%, rgba(37, 99, 235, 0.12), transparent 70%),
+    radial-gradient(closest-side at 70% 60%, rgba(6, 182, 212, 0.1), transparent 70%);
+  filter: blur(8px);
+}
+
+.cardInner {
+  position: relative;
+  padding: 2.5rem;
+}
+
+.form {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.fieldHelp {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.charCount {
+  font-variant-numeric: tabular-nums;
+}
+
+.label {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #27272a;
+}
+
+.input, .select, .textarea {
+  width: 100%;
+  padding: 0 1rem;
+  border-radius: 1rem;
+  border: 1px solid $color-border;
+  background: #fafafa;
+  font: inherit;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.input, .select {
+  height: 3.25rem;
+}
+
+.textarea {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  min-height: 150px;
+  resize: none;
+  overflow: hidden;
+  line-height: 1.55;
+  max-height: 320px;
+}
+
+/* Modern scrollbar when textarea overflows (autoResizeMessage toggles overflow-y) */
+.textarea {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(37, 99, 235, 0.35) transparent;
+}
+
+.textarea::-webkit-scrollbar {
+  width: 10px;
+}
+
+.textarea::-webkit-scrollbar-thumb {
+  background: rgba(37, 99, 235, 0.28);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+.textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.input:focus, .select:focus, .textarea:focus {
+  outline: none;
+  border-color: $color-primary;
+  box-shadow: 0 0 0 4px $color-primary-soft;
+  background: #ffffff;
+}
+
+.visuallyHiddenInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.selectRoot {
+  position: relative;
+}
+
+.selectTrigger {
+  @extend .select;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.selectTrigger:focus-visible {
+  outline: none;
+  border-color: $color-primary;
+  box-shadow: 0 0 0 4px $color-primary-soft;
+  background: #ffffff;
+}
+
+.selectTrigger[aria-expanded="true"] {
+  border-color: rgba(37, 99, 235, 0.55);
+  box-shadow: 0 0 0 4px $color-primary-soft, 0 14px 40px rgba(37, 99, 235, 0.12);
+}
+
+.selectValue {
+  flex: 1;
+  min-width: 0;
+}
+
+.selectPlaceholder {
+  color: rgba(100, 116, 139, 0.95);
+}
+
+.selectIcon {
+  color: rgba(30, 41, 59, 0.7);
+  display: inline-flex;
+}
+
+.selectDropdown {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  right: 0;
+  padding: 0.4rem;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 30px 90px rgba(2, 6, 23, 0.14),
+    0 10px 26px rgba(2, 6, 23, 0.08);
+  max-height: 260px;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.selectDropdown {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(37, 99, 235, 0.35) transparent;
+}
+
+.selectDropdown::-webkit-scrollbar {
+  width: 10px;
+}
+
+.selectDropdown::-webkit-scrollbar-thumb {
+  background: rgba(37, 99, 235, 0.28);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+.selectDropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.selectOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  color: #0f172a;
+  transition: background 120ms ease, transform 120ms ease;
+  user-select: none;
+}
+
+.selectOption:hover {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.selectOptionActive {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.selectOptionSelected {
+  background: rgba(37, 99, 235, 0.12);
+  font-weight: 800;
+}
+
+.selectOptionText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selectCheck {
+  color: rgba(37, 99, 235, 0.95);
+  display: inline-flex;
+}
+
+.submitBtn {
+  width: 100%;
+  height: 3.5rem;
+  border-radius: 1.25rem;
+  border: 0;
+  cursor: pointer;
+  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  transition: transform 120ms ease, box-shadow 160ms ease;
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.25);
+}
+
+.submitBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.32);
+}
+
+.infoSection {
+  display: grid;
+  gap: 2rem;
+}
+
+.infoCard {
+  padding: 2rem;
+  border-radius: 1.5rem;
+  background: rgba(37, 99, 235, 0.03);
+  border: 1px solid rgba(37, 99, 235, 0.08);
+}
+
+.infoTitle {
+  font-size: 1.1rem;
+  font-weight: 900;
+  margin-bottom: 0.75rem;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.infoText {
+  color: #64748b;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.infoLink {
+  color: $color-primary;
+  text-decoration: none;
+  font-weight: 700;
+  display: block;
+  margin-top: 0.5rem;
+}
+
+.infoLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .fieldGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .cardInner {
+    padding: 1.5rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .title {
+    background: linear-gradient(135deg, #ffffff 0%, #60a5fa 100%);
+    -webkit-background-clip: text;
+  }
+  
+  .subtitle {
+    color: #94a3b8;
+  }
+
+  .fieldHelp {
+    color: rgba(148, 163, 184, 0.95);
+  }
+  
+  .card {
+    background: #0b0f19;
+    border-color: rgba(96, 165, 250, 0.22);
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.45);
+  }
+  
+  .label {
+    color: rgba(255, 255, 255, 0.86);
+  }
+  
+  .input, .select, .textarea {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: $color-border-dark;
+    color: rgba(255, 255, 255, 0.86);
+  }
+
+  .textarea {
+    scrollbar-color: rgba(96, 165, 250, 0.4) transparent;
+  }
+
+  .textarea::-webkit-scrollbar-thumb {
+    background: rgba(96, 165, 250, 0.28);
+  }
+  
+  .input:focus, .select:focus, .textarea:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: $color-primary-dark;
+  }
+
+  .selectTrigger:focus-visible {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: $color-primary-dark;
+    box-shadow: 0 0 0 4px $color-primary-soft-dark;
+  }
+
+  .selectTrigger[aria-expanded="true"] {
+    border-color: rgba(96, 165, 250, 0.6);
+    box-shadow: 0 0 0 4px $color-primary-soft-dark, 0 18px 60px rgba(0, 0, 0, 0.35);
+  }
+
+  .selectPlaceholder {
+    color: rgba(148, 163, 184, 0.95);
+  }
+
+  .selectIcon {
+    color: rgba(226, 232, 240, 0.7);
+  }
+
+  .selectDropdown {
+    border-color: rgba(255, 255, 255, 0.08);
+    background: rgba(11, 15, 25, 0.8);
+    box-shadow:
+      0 40px 110px rgba(0, 0, 0, 0.65),
+      0 14px 34px rgba(0, 0, 0, 0.35);
+  }
+
+  .selectOption {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .selectOption:hover,
+  .selectOptionActive {
+    background: rgba(96, 165, 250, 0.16);
+  }
+
+  .selectOptionSelected {
+    background: rgba(96, 165, 250, 0.22);
+  }
+
+  .selectDropdown {
+    scrollbar-color: rgba(96, 165, 250, 0.4) transparent;
+  }
+
+  .selectDropdown::-webkit-scrollbar-thumb {
+    background: rgba(96, 165, 250, 0.28);
+  }
+  
+  .infoCard {
+    background: rgba(37, 99, 235, 0.08);
+    border-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  .infoTitle {
+    color: #ffffff;
+  }
+  
+  .infoText {
+    color: #94a3b8;
+  }
+}
+
