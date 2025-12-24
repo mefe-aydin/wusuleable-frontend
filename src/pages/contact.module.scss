@@ -1,32 +1,33 @@
 @use "@/styles/tokens" as *;
 
 .page {
-  padding: 4.5rem 0 5rem;
+  padding: clamp(2.75rem, calc(2.1rem + 1.2vw), 4.5rem) 0
+    clamp(3.25rem, calc(2.55rem + 1.35vw), 5rem);
 }
 
 .container {
   max-width: 1000px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 clamp(1rem, calc(0.85rem + 0.45vw), 1.5rem);
 }
 
 .header {
   text-align: center;
-  margin-bottom: 3.5rem;
+  margin-bottom: clamp(2.25rem, calc(1.65rem + 1.1vw), 3.5rem);
 }
 
 .title {
-  font-size: 3rem;
+  font-size: clamp(2.15rem, calc(1.55rem + 1.1vw), 3rem);
   font-weight: 900;
   letter-spacing: -0.04em;
-  margin-bottom: 1rem;
+  margin-bottom: clamp(0.75rem, calc(0.65rem + 0.2vw), 1rem);
   background: linear-gradient(135deg, #1e293b 0%, #3b82f6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .subtitle {
-  font-size: 1.15rem;
+  font-size: clamp(1rem, calc(0.9rem + 0.25vw), 1.15rem);
   color: #64748b;
   max-width: 600px;
   margin: 0 auto;
@@ -36,7 +37,7 @@
 .content {
   display: grid;
   grid-template-columns: 1.5fr 1fr;
-  gap: 3rem;
+  gap: clamp(1.5rem, calc(1.0rem + 1.0vw), 3rem);
   align-items: start;
 }
 
@@ -61,31 +62,31 @@
 
 .cardInner {
   position: relative;
-  padding: 2.5rem;
+  padding: clamp(1.5rem, calc(1.2rem + 0.9vw), 2.5rem);
 }
 
 .form {
   display: grid;
-  gap: 1.5rem;
+  gap: clamp(0.9rem, calc(0.75rem + 0.45vw), 1.5rem);
 }
 
 .fieldGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.25rem;
+  gap: clamp(0.85rem, calc(0.72rem + 0.35vw), 1.25rem);
 }
 
 .field {
   display: grid;
-  gap: 0.5rem;
+  gap: clamp(0.4rem, calc(0.38rem + 0.06vw), 0.5rem);
 }
 
 .fieldHelp {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 1rem;
-  font-size: 0.85rem;
+  gap: clamp(0.75rem, calc(0.65rem + 0.25vw), 1rem);
+  font-size: clamp(0.78rem, calc(0.74rem + 0.12vw), 0.85rem);
   color: #64748b;
 }
 
@@ -94,7 +95,7 @@
 }
 
 .label {
-  font-size: 0.9rem;
+  font-size: clamp(0.82rem, calc(0.78rem + 0.12vw), 0.9rem);
   font-weight: 800;
   color: #27272a;
 }
@@ -110,13 +111,13 @@
 }
 
 .input, .select {
-  height: 3.25rem;
+  height: clamp(3rem, calc(2.75rem + 0.55vw), 3.25rem);
 }
 
 .textarea {
   padding-top: 1rem;
   padding-bottom: 1rem;
-  min-height: 150px;
+  min-height: clamp(120px, calc(110px + 2vw), 150px);
   resize: none;
   overflow: hidden;
   line-height: 1.55;
@@ -149,6 +150,33 @@
   border-color: $color-primary;
   box-shadow: 0 0 0 4px $color-primary-soft;
   background: #ffffff;
+}
+
+/* Validation Styles */
+.input:invalid:not(:placeholder-shown),
+.textarea:invalid:not(:placeholder-shown) {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+  background: rgba(239, 68, 68, 0.02);
+}
+
+.input:invalid:not(:placeholder-shown):focus,
+.textarea:invalid:not(:placeholder-shown):focus {
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.15) !important;
+}
+
+.errorMsg {
+  color: #ef4444;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-top: 0.15rem;
+  display: block;
+  animation: slideDown 200ms ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .visuallyHiddenInput {
@@ -281,14 +309,14 @@
 
 .submitBtn {
   width: 100%;
-  height: 3.5rem;
+  height: clamp(3rem, calc(2.65rem + 0.75vw), 3.5rem);
   border-radius: 1.25rem;
   border: 0;
   cursor: pointer;
   background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
   color: #ffffff;
   font-weight: 900;
-  font-size: 1.05rem;
+  font-size: clamp(0.95rem, calc(0.9rem + 0.15vw), 1.05rem);
   letter-spacing: -0.01em;
   transition: transform 120ms ease, box-shadow 160ms ease;
   box-shadow: 0 10px 24px rgba(37, 99, 235, 0.25);

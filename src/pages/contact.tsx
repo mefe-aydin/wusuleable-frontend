@@ -183,12 +183,46 @@ export default function ContactPage() {
   const router = useRouter();
   const isTr = router.locale === "tr";
   const [subject, setSubject] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  
   const messageRef = useRef<HTMLTextAreaElement>(null);
   const messageHelpId = useId();
   const [messageLen, setMessageLen] = useState(0);
   const MESSAGE_MAX = 250;
 
+  const handleInvalid = (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    e.preventDefault();
+    const target = e.currentTarget;
+
+    if (target.validity.valueMissing) {
+      setErrors(prev => ({ ...prev, [target.name]: "Bu alan boş bırakılamaz." }));
+    } else if (target.type === "email" && target.validity.typeMismatch) {
+      setErrors(prev => ({ ...prev, [target.name]: "Geçersiz e-posta." }));
+    } else if (target.name === "name" && target.validity.patternMismatch) {
+      setErrors(prev => ({ ...prev, [target.name]: "Sadece harf girin." }));
+    } else {
+      setErrors(prev => ({ ...prev, [target.name]: target.validationMessage }));
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (errors[e.target.name]) {
+      setErrors(prev => ({ ...prev, [e.target.name]: "" }));
+    }
+  };
+
   const autoResizeMessage = () => {
+    const el = messageRef.current;
+    if (!el) return;
+
+    // Reset first so shrink also works
+    el.style.height = "auto";
+
+    const max = 320; // keep in sync with CSS max-height
+    const next = Math.min(el.scrollHeight, max);
+    el.style.height = `${next}px`;
+    el.style.overflowY = el.scrollHeight > max ? "auto" : "hidden";
+  };
     const el = messageRef.current;
     if (!el) return;
 
@@ -244,19 +278,30 @@ export default function ContactPage() {
                       <span className={styles.label}>{t.nameLabel}</span>
                       <input
                         className={styles.input}
+                        name="name"
                         type="text"
                         placeholder={isTr ? "Örn. Ahmet Yılmaz" : "e.g. John Doe"}
                         required
+                        maxLength={50}
+                        pattern="^[a-zA-ZÇçĞğİıÖöŞşÜü\s]+$"
+                        onInvalid={handleInvalid}
+                        onChange={handleChange}
                       />
+                      {errors.name && <span className={styles.errorMsg}>{errors.name}</span>}
                     </label>
                     <label className={styles.field}>
                       <span className={styles.label}>{t.emailLabel}</span>
                       <input
                         className={styles.input}
+                        name="email"
                         type="email"
                         placeholder="e.g. name@company.com"
                         required
+                        maxLength={100}
+                        onInvalid={handleInvalid}
+                        onChange={handleChange}
                       />
+                      {errors.email && <span className={styles.errorMsg}>{errors.email}</span>}
                     </label>
                   </div>
 
@@ -276,17 +321,21 @@ export default function ContactPage() {
                     <span className={styles.label}>{t.messageLabel}</span>
                     <textarea
                       className={styles.textarea}
+                      name="message"
                       ref={messageRef}
                       maxLength={MESSAGE_MAX}
                       aria-describedby={messageHelpId}
                       onInput={(e) => {
                         autoResizeMessage();
                         if (e.currentTarget) setMessageLen(e.currentTarget.value.length);
+                        handleChange(e);
                       }}
                       onFocus={autoResizeMessage}
+                      onInvalid={handleInvalid}
                       placeholder={isTr ? "Size nasıl yardımcı olabiliriz?" : "How can we help you?"}
                       required
                     ></textarea>
+                    {errors.message && <span className={styles.errorMsg}>{errors.message}</span>}
                     <div className={styles.fieldHelp} id={messageHelpId}>
                       <span>{t.messageHelp}</span>
                       <span className={styles.charCount}>

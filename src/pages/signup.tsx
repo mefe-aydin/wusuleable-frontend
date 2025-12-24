@@ -11,6 +11,32 @@ export default function SignupPage() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const handleInvalid = (e: React.FormEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const target = e.currentTarget;
+
+    if (target.validity.valueMissing) {
+      setErrors(prev => ({ ...prev, [target.name]: "Bu alan boş bırakılamaz." }));
+    } else if (target.type === "email" && target.validity.typeMismatch) {
+      setErrors(prev => ({ ...prev, [target.name]: "Geçersiz e-posta." }));
+    } else if (target.type === "url" && target.validity.typeMismatch) {
+      setErrors(prev => ({ ...prev, [target.name]: "Geçersiz URL." }));
+    } else if (target.name === "password" && target.validity.patternMismatch) {
+      setErrors(prev => ({ ...prev, [target.name]: "Zayıf parola. En az 8 karakter, büyük harf ve rakam gerekli." }));
+    } else if (target.name === "confirmPassword" && target.validity.patternMismatch) {
+      setErrors(prev => ({ ...prev, [target.name]: "Zayıf parola. En az 8 karakter, büyük harf ve rakam gerekli." }));
+    } else {
+      setErrors(prev => ({ ...prev, [target.name]: target.validationMessage }));
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (errors[e.target.name]) {
+      setErrors(prev => ({ ...prev, [e.target.name]: "" }));
+    }
+  };
 
   const title = isTr ? "Kayıt Ol" : "Sign up";
   const googleLabel = isTr ? "Google ile kayıt ol" : "Sign up with Google";
@@ -39,6 +65,7 @@ export default function SignupPage() {
               </div>
 
               <button type="button" className={styles.googleBtn} aria-label={googleLabel}>
+                {/* ... (google icon aynı) ... */}
                 <svg
                   className={styles.googleIcon}
                   viewBox="0 0 24 24"
@@ -74,20 +101,30 @@ export default function SignupPage() {
                     <span className={styles.label}>{emailLabel}</span>
                     <input
                       className={styles.input}
+                      name="email"
                       type="email"
                       placeholder="e.g. name@company.com"
                       required
+                      maxLength={100}
+                      onInvalid={handleInvalid}
+                      onChange={handleChange}
                     />
+                    {errors.email && <span className={styles.errorMsg}>{errors.email}</span>}
                   </label>
 
                   <label className={styles.field}>
                     <span className={styles.label}>{websiteLabel}</span>
                     <input
                       className={styles.input}
+                      name="website"
                       type="url"
                       placeholder="e.g. https://yoursite.com"
                       required
+                      maxLength={200}
+                      onInvalid={handleInvalid}
+                      onChange={handleChange}
                     />
+                    {errors.website && <span className={styles.errorMsg}>{errors.website}</span>}
                   </label>
 
                   <label className={styles.field}>
@@ -95,8 +132,14 @@ export default function SignupPage() {
                     <div className={styles.inputWrapper}>
                       <input
                         className={styles.input}
+                        name="password"
                         type={showPassword ? "text" : "password"}
                         required
+                        maxLength={64}
+                        placeholder=" "
+                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"
+                        onInvalid={handleInvalid}
+                        onChange={handleChange}
                       />
                       <button
                         type="button"
@@ -104,6 +147,7 @@ export default function SignupPage() {
                         onClick={() => setShowPassword(!showPassword)}
                         aria-label={showPassword ? "Hide password" : "Show password"}
                       >
+                        {/* ... (eye icon aynı) ... */}
                         {showPassword ? (
                           <svg
                             viewBox="0 0 24 24"
@@ -135,6 +179,7 @@ export default function SignupPage() {
                         )}
                       </button>
                     </div>
+                    {errors.password && <span className={styles.errorMsg}>{errors.password}</span>}
                   </label>
 
                   <label className={styles.field}>
@@ -142,8 +187,14 @@ export default function SignupPage() {
                     <div className={styles.inputWrapper}>
                       <input
                         className={styles.input}
+                        name="confirmPassword"
                         type={showConfirmPassword ? "text" : "password"}
                         required
+                        maxLength={64}
+                        placeholder=" "
+                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"
+                        onInvalid={handleInvalid}
+                        onChange={handleChange}
                       />
                       <button
                         type="button"
@@ -151,6 +202,7 @@ export default function SignupPage() {
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                         aria-label={showConfirmPassword ? "Hide password" : "Show password"}
                       >
+                        {/* ... (eye icon aynı) ... */}
                         {showConfirmPassword ? (
                           <svg
                             viewBox="0 0 24 24"
@@ -182,6 +234,7 @@ export default function SignupPage() {
                         )}
                       </button>
                     </div>
+                    {errors.confirmPassword && <span className={styles.errorMsg}>{errors.confirmPassword}</span>}
                   </label>
                 </div>
 

@@ -10,6 +10,28 @@ export default function LoginPage() {
   const isTr = router.locale === "tr";
 
   const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const handleInvalid = (e: React.FormEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const target = e.currentTarget;
+
+    if (target.validity.valueMissing) {
+      setErrors(prev => ({ ...prev, [target.name]: "Bu alan boş bırakılamaz." }));
+    } else if (target.type === "email" && target.validity.typeMismatch) {
+      setErrors(prev => ({ ...prev, [target.name]: "Geçersiz e-posta." }));
+    } else if (target.name === "password" && target.validity.patternMismatch) {
+      setErrors(prev => ({ ...prev, [target.name]: "Zayıf parola. En az 8 karakter, büyük harf ve rakam gerekli." }));
+    } else {
+      setErrors(prev => ({ ...prev, [target.name]: target.validationMessage }));
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (errors[e.target.name]) {
+      setErrors(prev => ({ ...prev, [e.target.name]: "" }));
+    }
+  };
 
   const title = isTr ? "Oturum Aç" : "Sign in";
   const googleLabel = isTr ? "Google ile oturum aç" : "Sign in with Google";
@@ -37,6 +59,7 @@ export default function LoginPage() {
               </div>
 
               <button type="button" className={styles.googleBtn} aria-label={googleLabel}>
+                {/* ... (google icon aynı) ... */}
                 <svg
                   className={styles.googleIcon}
                   viewBox="0 0 24 24"
@@ -72,10 +95,15 @@ export default function LoginPage() {
                     <span className={styles.label}>{emailLabel}</span>
                     <input
                       className={styles.input}
+                      name="email"
                       type="email"
                       placeholder="e.g. name@company.com"
                       required
+                      maxLength={100}
+                      onInvalid={handleInvalid}
+                      onChange={handleChange}
                     />
+                    {errors.email && <span className={styles.errorMsg}>{errors.email}</span>}
                   </label>
 
                   <label className={styles.field}>
@@ -88,8 +116,14 @@ export default function LoginPage() {
                     <div className={styles.inputWrapper}>
                       <input
                         className={styles.input}
+                        name="password"
                         type={showPassword ? "text" : "password"}
                         required
+                        maxLength={64}
+                        placeholder=" "
+                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"
+                        onInvalid={handleInvalid}
+                        onChange={handleChange}
                       />
                       <button
                         type="button"
@@ -128,6 +162,7 @@ export default function LoginPage() {
                         )}
                       </button>
                     </div>
+                    {errors.password && <span className={styles.errorMsg}>{errors.password}</span>}
                   </label>
                 </div>
 
