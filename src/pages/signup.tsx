@@ -1,4 +1,7 @@
 import { SiteLayout } from "@/layouts/SiteLayout";
+import { ApiError } from "@/api/http";
+import { postCreateUser } from "@/api/users";
+import { setAuthToken } from "@/lib/authToken";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -12,6 +15,8 @@ export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const handleInvalid = (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -49,6 +54,51 @@ export default function SignupPage() {
   const confirmPasswordLabel = isTr ? "Şifre Onayı" : "Confirm Password";
   const websiteLabel = isTr ? "Web Sitesi URL" : "Website URL";
   const signupBtnLabel = isTr ? "Kayıt Ol" : "Sign up";
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmitError(null);
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    const email = String(data.get("email") ?? "").trim();
+    const websiteUrlRaw = String(data.get("website") ?? "").trim();
+    const password = String(data.get("password") ?? "");
+    const confirmPassword = String(data.get("confirmPassword") ?? "");
+
+    if (password !== confirmPassword) {
+      setErrors(prev => ({
+        ...prev,
+        confirmPassword: isTr ? "Şifreler eşleşmiyor." : "Passwords do not match.",
+      }));
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+      const result = await postCreateUser({
+        email,
+        password,
+        passwordConfirmation: confirmPassword,
+        websiteUrl: websiteUrlRaw ? websiteUrlRaw : null,
+      });
+
+      if (result?.item?.token) {
+        setAuthToken(result.item.token);
+      }
+
+      await router.push("/dashboard");
+    } catch (err) {
+      if (err instanceof ApiError) {
+        setSubmitError(err.message);
+      } else {
+        setSubmitError(isTr ? "Kayıt başarısız. Lütfen tekrar deneyin." : "Signup failed. Please try again.");
+      }
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <SiteLayout>
@@ -95,7 +145,8 @@ export default function SignupPage() {
                 <span>{orLabel}</span>
               </div>
 
-              <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
+              <form className={styles.form} onSubmit={handleSubmit} aria-busy={submitting}>
+                {submitError && <div className={styles.errorMsg}>{submitError}</div>}
                 <div className={styles.fieldGrid}>
                   <label className={styles.field}>
                     <span className={styles.label}>{emailLabel}</span>
@@ -239,8 +290,9 @@ export default function SignupPage() {
                 </div>
 
                 <div className={styles.formAction}>
-                  <button type="submit" className={styles.submitBtn}>
-                    {signupBtnLabel}
+                  <button type="submit" className={styles.submitBtn} disabled={submitting}>
+                    {submitting && <span className={styles.spinner} aria-hidden="true" />}
+                    <span>{signupBtnLabel}</span>
                   </button>
                 </div>
               </form>

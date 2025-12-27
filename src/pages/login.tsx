@@ -1,4 +1,7 @@
 import { SiteLayout } from "@/layouts/SiteLayout";
+import { ApiError } from "@/api/http";
+import { postLogin } from "@/api/auth";
+import { setAuthToken } from "@/lib/authToken";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Link from "next/link";
@@ -11,6 +14,8 @@ export default function LoginPage() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const handleInvalid = (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -43,6 +48,36 @@ export default function LoginPage() {
   const emailLabel = isTr ? "E-posta" : "Email";
   const passwordLabel = isTr ? "Şifre" : "Password";
   const loginBtnLabel = isTr ? "Giriş Yap" : "Sign in";
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmitError(null);
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    const email = String(data.get("email") ?? "").trim();
+    const password = String(data.get("password") ?? "");
+
+    try {
+      setSubmitting(true);
+      const result = await postLogin({ email, password });
+
+      if (result?.item?.token) {
+        setAuthToken(result.item.token);
+      }
+
+      await router.push("/dashboard");
+    } catch (err) {
+      if (err instanceof ApiError) {
+        setSubmitError(err.message);
+      } else {
+        setSubmitError(isTr ? "Giriş başarısız. Lütfen tekrar deneyin." : "Login failed. Please try again.");
+      }
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <SiteLayout>
@@ -89,7 +124,8 @@ export default function LoginPage() {
                 <span>{orLabel}</span>
               </div>
 
-              <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
+              <form className={styles.form} onSubmit={handleSubmit} aria-busy={submitting}>
+                {submitError && <div className={styles.errorMsg}>{submitError}</div>}
                 <div className={styles.fieldGrid}>
                   <label className={styles.field}>
                     <span className={styles.label}>{emailLabel}</span>
@@ -167,8 +203,9 @@ export default function LoginPage() {
                 </div>
 
                 <div className={styles.formAction}>
-                  <button type="submit" className={styles.submitBtn}>
-                    {loginBtnLabel}
+                  <button type="submit" className={styles.submitBtn} disabled={submitting}>
+                    {submitting && <span className={styles.spinner} aria-hidden="true" />}
+                    <span>{loginBtnLabel}</span>
                   </button>
                 </div>
               </form>

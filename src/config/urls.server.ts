@@ -1,7 +1,8 @@
 import { getAppEnv, type AppEnv } from "@/config/env";
 
 const BACKEND_BASE_URLS: Record<AppEnv, string> = {
-  local: "http://localhost:5000",
+  // Local backend default (can still be overridden by BACKEND_BASE_URL in hosting/env)
+  local: "https://localhost:7013",
   uat: "https://uat-api.wusuleable.com",
   prod: "https://api.wusuleable.com",
 };

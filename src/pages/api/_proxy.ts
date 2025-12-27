@@ -17,6 +17,16 @@ function joinUrl(base: string, path: string): string {
   return `${b}${p}`;
 }
 
+function isLocalhostUrl(url: string): boolean {
+  try {
+    const u = new URL(url);
+    const host = u.hostname;
+    return host === "localhost" || host === "127.0.0.1" || host === "::1";
+  } catch {
+    return false;
+  }
+}
+
 export async function proxyToBackend(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -26,6 +36,17 @@ export async function proxyToBackend(
   if (!baseUrl) {
     res.status(500).json({ message: "BACKEND_BASE_URL is not configured." });
     return;
+  }
+
+  // Local dev escape hatch for self-signed HTTPS certs.
+  // Prefer trusting your dev certificate instead of using this.
+  // Enable with BACKEND_INSECURE_TLS=true (server-only).
+  if (
+    process.env.BACKEND_INSECURE_TLS === "true" ||
+    process.env.BACKEND_INSECURE_TLS === "1" ||
+    (process.env.NODE_ENV === "development" && baseUrl.startsWith("https://") && isLocalhostUrl(baseUrl))
+  ) {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
   }
 
   const url = joinUrl(baseUrl, backendPath);
@@ -40,6 +61,11 @@ export async function proxyToBackend(
 
   // Forward cookies to backend (useful for httpOnly auth cookies).
   if (req.headers.cookie) headers.Cookie = req.headers.cookie;
+
+  // Forward bearer auth if provided by the client.
+  if (typeof req.headers.authorization === "string") {
+    headers.Authorization = req.headers.authorization;
+  }
 
   // Forward content-type if present.
   if (typeof req.headers["content-type"] === "string") {
