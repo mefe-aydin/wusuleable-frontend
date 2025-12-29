@@ -1,4 +1,3 @@
-import { SiteLayout } from "@/layouts/SiteLayout";
 import { useRouter } from "next/router";
 
 export default function AccessibilityStatementPage() {
@@ -19,18 +18,16 @@ export default function AccessibilityStatementPage() {
     : "If you find an accessibility issue, you can contact us. We take feedback seriously and prioritize improvements.";
 
   return (
-    <SiteLayout>
-      <section aria-label={title} style={{ padding: "4rem 0" }}>
-        <h1 style={{ fontSize: "2.5rem", fontWeight: 800, letterSpacing: "-0.02em" }}>{title}</h1>
-        <p style={{ marginTop: "1rem", lineHeight: 1.8, color: "#52525b" }}>{intro}</p>
+    <section aria-label={title} style={{ padding: "4rem 0" }}>
+      <h1 style={{ fontSize: "2.5rem", fontWeight: 800, letterSpacing: "-0.02em" }}>{title}</h1>
+      <p style={{ marginTop: "1rem", lineHeight: 1.8, color: "#52525b" }}>{intro}</p>
 
-        <h2 style={{ marginTop: "2rem", fontSize: "1.5rem", fontWeight: 800 }}>{scopeTitle}</h2>
-        <p style={{ marginTop: "0.75rem", lineHeight: 1.8, color: "#52525b" }}>{scopeBody}</p>
+      <h2 style={{ marginTop: "2rem", fontSize: "1.5rem", fontWeight: 800 }}>{scopeTitle}</h2>
+      <p style={{ marginTop: "0.75rem", lineHeight: 1.8, color: "#52525b" }}>{scopeBody}</p>
 
-        <h2 style={{ marginTop: "2rem", fontSize: "1.5rem", fontWeight: 800 }}>{feedbackTitle}</h2>
-        <p style={{ marginTop: "0.75rem", lineHeight: 1.8, color: "#52525b" }}>{feedbackBody}</p>
-      </section>
-    </SiteLayout>
+      <h2 style={{ marginTop: "2rem", fontSize: "1.5rem", fontWeight: 800 }}>{feedbackTitle}</h2>
+      <p style={{ marginTop: "0.75rem", lineHeight: 1.8, color: "#52525b" }}>{feedbackBody}</p>
+    </section>
   );
 }
 

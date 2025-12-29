@@ -1,4 +1,3 @@
-import { SiteLayout } from "@/layouts/SiteLayout";
 import { useRouter } from "next/router";
 import { useEffect, useId, useRef, useState } from "react";
 import styles from "./request-demo.module.scss";
@@ -196,18 +195,17 @@ export default function RequestDemoPage() {
   };
 
   return (
-    <SiteLayout>
-      <div className={styles.page}>
-        <div className={styles.container}>
-          <header className={styles.header}>
-            <h1 className={styles.title}>{t.title}</h1>
-            <p className={styles.subtitle}>{t.subtitle}</p>
-          </header>
+    <div className={styles.page}>
+      <div className={styles.container}>
+        <header className={styles.header}>
+          <h1 className={styles.title}>{t.title}</h1>
+          <p className={styles.subtitle}>{t.subtitle}</p>
+        </header>
 
-          <div className={styles.card}>
-            <div className={styles.cardGlow} aria-hidden="true" />
-            <div className={styles.cardInner}>
-              <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
+        <div className={styles.card}>
+          <div className={styles.cardGlow} aria-hidden="true" />
+          <div className={styles.cardInner}>
+            <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
                 <label className={styles.field}>
                   <span className={styles.label}>{t.nameLabel}</span>
                   <input
@@ -279,11 +277,10 @@ export default function RequestDemoPage() {
                 <button type="submit" className={styles.submitBtn}>
                   {t.submitBtn}
                 </button>
-              </form>
-            </div>
+            </form>
           </div>
         </div>
       </div>
-    </SiteLayout>
+    </div>
   );
 }

@@ -1,4 +1,3 @@
-import { SiteLayout } from "@/layouts/SiteLayout";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
@@ -125,8 +124,7 @@ export default function WidgetPage() {
   };
 
   return (
-    <SiteLayout>
-      <div className={styles.page}>
+    <div className={styles.page}>
         <div className={styles.container}>
           <section className={styles.hero}>
             <div className={styles.heroContent}>
@@ -384,6 +382,5 @@ export default function WidgetPage() {
           </section>
         </div>
       </div>
-    </SiteLayout>
   );
 }

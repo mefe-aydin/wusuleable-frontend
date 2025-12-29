@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Inter } from "next/font/google";
 
+import { SiteLayout } from "@/layouts/SiteLayout";
+
 const inter = Inter({
   subsets: ["latin", "latin-ext"],
   display: "swap",
@@ -23,7 +25,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <div className={inter.className}>
-      <Component {...pageProps} />
+      <SiteLayout>
+        <Component {...pageProps} />
+      </SiteLayout>
     </div>
   );
 }

@@ -1,7 +1,7 @@
-import { SiteLayout } from "@/layouts/SiteLayout";
 import { ApiError } from "@/api/http";
 import { postCreateUser } from "@/api/users";
 import { setAuthToken } from "@/lib/authToken";
+import { localeToLanguageCode, setStoredLanguageCode } from "@/lib/language";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -77,16 +77,21 @@ export default function SignupPage() {
 
     try {
       setSubmitting(true);
+      const languageCode = localeToLanguageCode(router.locale);
       const result = await postCreateUser({
         email,
         password,
         passwordConfirmation: confirmPassword,
         websiteUrl: websiteUrlRaw ? websiteUrlRaw : null,
+        languageCode,
       });
 
       if (result?.item?.token) {
         setAuthToken(result.item.token);
       }
+
+      // Remember selected language for this user on this device.
+      setStoredLanguageCode(languageCode);
 
       await router.push("/dashboard");
     } catch (err) {
@@ -101,18 +106,17 @@ export default function SignupPage() {
   };
 
   return (
-    <SiteLayout>
-      <section className={styles.page} aria-label={title}>
-        <div className={styles.center}>
-          <div className={styles.card} role="group" aria-label={title}>
-            <div className={styles.cardGlow} aria-hidden="true" />
-            <div className={styles.cardInner}>
-              <div className={styles.topLink}>
-                {hasAccountLabel}{" "}
-                <Link href="/login" aria-label={loginLabel} className={styles.inlineLink}>
-                  {loginLabel}
-                </Link>
-              </div>
+    <section className={styles.page} aria-label={title}>
+      <div className={styles.center}>
+        <div className={styles.card} role="group" aria-label={title}>
+          <div className={styles.cardGlow} aria-hidden="true" />
+          <div className={styles.cardInner}>
+            <div className={styles.topLink}>
+              {hasAccountLabel}{" "}
+              <Link href="/login" aria-label={loginLabel} className={styles.inlineLink}>
+                {loginLabel}
+              </Link>
+            </div>
 
               <button type="button" className={styles.googleBtn} aria-label={googleLabel}>
                 {/* ... (google icon aynı) ... */}
@@ -145,9 +149,9 @@ export default function SignupPage() {
                 <span>{orLabel}</span>
               </div>
 
-              <form className={styles.form} onSubmit={handleSubmit} aria-busy={submitting}>
-                {submitError && <div className={styles.errorMsg}>{submitError}</div>}
-                <div className={styles.fieldGrid}>
+            <form className={styles.form} onSubmit={handleSubmit} aria-busy={submitting}>
+              {submitError && <div className={styles.errorMsg}>{submitError}</div>}
+              <div className={styles.fieldGrid}>
                   <label className={styles.field}>
                     <span className={styles.label}>{emailLabel}</span>
                     <input
@@ -289,18 +293,17 @@ export default function SignupPage() {
                   </label>
                 </div>
 
-                <div className={styles.formAction}>
-                  <button type="submit" className={styles.submitBtn} disabled={submitting}>
-                    {submitting && <span className={styles.spinner} aria-hidden="true" />}
-                    <span>{signupBtnLabel}</span>
-                  </button>
-                </div>
-              </form>
-            </div>
+              <div className={styles.formAction}>
+                <button type="submit" className={styles.submitBtn} disabled={submitting}>
+                  {submitting && <span className={styles.spinner} aria-hidden="true" />}
+                  <span>{signupBtnLabel}</span>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
-      </section>
-    </SiteLayout>
+      </div>
+    </section>
   );
 }
 

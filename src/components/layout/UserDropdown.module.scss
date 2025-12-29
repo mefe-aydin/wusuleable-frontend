@@ -1,0 +1,142 @@
+@use "@/styles/tokens" as *;
+
+.root {
+  position: relative;
+}
+
+.summary {
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  height: 2.5rem;
+  padding: 0 0.875rem;
+  border-radius: $radius-pill;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: $color-muted;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary:hover {
+  background: $color-primary-soft;
+  color: $color-primary;
+}
+
+.summary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px $color-primary-soft;
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+
+.chev {
+  width: 0.75rem;
+  height: 0.75rem;
+  opacity: 0.75;
+  flex-shrink: 0;
+}
+
+.menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  width: max-content;
+  min-width: 10rem;
+  max-width: 90vw;
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.625rem;
+  border-radius: 0.875rem;
+  background: $color-bg;
+  border: 1px solid $color-border;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  z-index: 200;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0.875rem;
+  border-radius: 0.75rem;
+  text-decoration: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: $color-text;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-align: left;
+  transition: background-color 160ms ease, color 160ms ease;
+  font-family: inherit;
+}
+
+.item:hover,
+.item:focus-visible {
+  outline: none;
+  background: $color-primary-soft;
+  color: $color-primary;
+}
+
+.divider {
+  height: 1px;
+  background: $color-border;
+  margin: 0.25rem 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .summary {
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .summary:hover {
+    background: $color-primary-soft-dark;
+    color: $color-primary-dark;
+  }
+
+  .summary:focus-visible {
+    box-shadow: 0 0 0 4px $color-primary-soft-dark;
+  }
+
+  .menu {
+    background: $color-bg-dark;
+    border: 1px solid $color-border-dark;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .item {
+    color: $color-text-dark;
+  }
+
+  .item:hover,
+  .item:focus-visible {
+    background: $color-primary-soft-dark;
+    color: $color-primary-dark;
+  }
+
+  .divider {
+    background: $color-border-dark;
+  }
+}
+

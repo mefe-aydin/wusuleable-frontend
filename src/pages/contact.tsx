@@ -1,4 +1,3 @@
-import { SiteLayout } from "@/layouts/SiteLayout";
 import { useRouter } from "next/router";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import styles from "./contact.module.scss";
@@ -205,24 +204,14 @@ export default function ContactPage() {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    if (errors[e.target.name]) {
-      setErrors(prev => ({ ...prev, [e.target.name]: "" }));
+  const handleChange = (e: React.SyntheticEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const name = e.currentTarget.name;
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: "" }));
     }
   };
 
   const autoResizeMessage = () => {
-    const el = messageRef.current;
-    if (!el) return;
-
-    // Reset first so shrink also works
-    el.style.height = "auto";
-
-    const max = 320; // keep in sync with CSS max-height
-    const next = Math.min(el.scrollHeight, max);
-    el.style.height = `${next}px`;
-    el.style.overflowY = el.scrollHeight > max ? "auto" : "hidden";
-  };
     const el = messageRef.current;
     if (!el) return;
 
@@ -260,114 +249,114 @@ export default function ContactPage() {
   };
 
   return (
-    <SiteLayout>
-      <section className={styles.page}>
-        <div className={styles.container}>
-          <header className={styles.header}>
-            <h1 className={styles.title}>{t.title}</h1>
-            <p className={styles.subtitle}>{t.subtitle}</p>
-          </header>
+    <section className={styles.page}>
+      <div className={styles.container}>
+        <header className={styles.header}>
+          <h1 className={styles.title}>{t.title}</h1>
+          <p className={styles.subtitle}>{t.subtitle}</p>
+        </header>
 
-          <div className={styles.content}>
-            <div className={styles.card}>
-              <div className={styles.cardGlow} aria-hidden="true" />
-              <div className={styles.cardInner}>
-                <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
-                  <div className={styles.fieldGrid}>
-                    <label className={styles.field}>
-                      <span className={styles.label}>{t.nameLabel}</span>
-                      <input
-                        className={styles.input}
-                        name="name"
-                        type="text"
-                        placeholder={isTr ? "Örn. Ahmet Yılmaz" : "e.g. John Doe"}
-                        required
-                        maxLength={50}
-                        pattern="^[a-zA-ZÇçĞğİıÖöŞşÜü\s]+$"
-                        onInvalid={handleInvalid}
-                        onChange={handleChange}
-                      />
-                      {errors.name && <span className={styles.errorMsg}>{errors.name}</span>}
-                    </label>
-                    <label className={styles.field}>
-                      <span className={styles.label}>{t.emailLabel}</span>
-                      <input
-                        className={styles.input}
-                        name="email"
-                        type="email"
-                        placeholder="e.g. name@company.com"
-                        required
-                        maxLength={100}
-                        onInvalid={handleInvalid}
-                        onChange={handleChange}
-                      />
-                      {errors.email && <span className={styles.errorMsg}>{errors.email}</span>}
-                    </label>
-                  </div>
-
+        <div className={styles.content}>
+          <div className={styles.card}>
+            <div className={styles.cardGlow} aria-hidden="true" />
+            <div className={styles.cardInner}>
+              <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
+                <div className={styles.fieldGrid}>
                   <label className={styles.field}>
-                    <span className={styles.label}>{t.subjectLabel}</span>
-                    <SubjectSelect
-                      items={t.subjects}
-                      value={subject}
-                      onChange={setSubject}
-                      name="subject"
+                    <span className={styles.label}>{t.nameLabel}</span>
+                    <input
+                      className={styles.input}
+                      name="name"
+                      type="text"
+                      placeholder={isTr ? "Örn. Ahmet Yılmaz" : "e.g. John Doe"}
                       required
-                      placeholder={isTr ? "Bir konu seçin" : "Select a subject"}
-                    />
-                  </label>
-
-                  <label className={styles.field}>
-                    <span className={styles.label}>{t.messageLabel}</span>
-                    <textarea
-                      className={styles.textarea}
-                      name="message"
-                      ref={messageRef}
-                      maxLength={MESSAGE_MAX}
-                      aria-describedby={messageHelpId}
-                      onInput={(e) => {
-                        autoResizeMessage();
-                        if (e.currentTarget) setMessageLen(e.currentTarget.value.length);
-                        handleChange(e);
-                      }}
-                      onFocus={autoResizeMessage}
+                      maxLength={50}
+                      pattern="^[a-zA-ZÇçĞğİıÖöŞşÜü\s]+$"
                       onInvalid={handleInvalid}
-                      placeholder={isTr ? "Size nasıl yardımcı olabiliriz?" : "How can we help you?"}
-                      required
-                    ></textarea>
-                    {errors.message && <span className={styles.errorMsg}>{errors.message}</span>}
-                    <div className={styles.fieldHelp} id={messageHelpId}>
-                      <span>{t.messageHelp}</span>
-                      <span className={styles.charCount}>
-                        {messageLen}/{MESSAGE_MAX}
-                      </span>
-                    </div>
+                      onChange={handleChange}
+                    />
+                    {errors.name && <span className={styles.errorMsg}>{errors.name}</span>}
                   </label>
+                  <label className={styles.field}>
+                    <span className={styles.label}>{t.emailLabel}</span>
+                    <input
+                      className={styles.input}
+                      name="email"
+                      type="email"
+                      placeholder="e.g. name@company.com"
+                      required
+                      maxLength={100}
+                      onInvalid={handleInvalid}
+                      onChange={handleChange}
+                    />
+                    {errors.email && <span className={styles.errorMsg}>{errors.email}</span>}
+                  </label>
+                </div>
 
-                  <button type="submit" className={styles.submitBtn}>
-                    {t.submitBtn}
-                  </button>
-                </form>
-              </div>
+                <label className={styles.field}>
+                  <span className={styles.label}>{t.subjectLabel}</span>
+                  <SubjectSelect
+                    items={t.subjects}
+                    value={subject}
+                    onChange={setSubject}
+                    name="subject"
+                    required
+                    placeholder={isTr ? "Bir konu seçin" : "Select a subject"}
+                  />
+                </label>
+
+                <label className={styles.field}>
+                  <span className={styles.label}>{t.messageLabel}</span>
+                  <textarea
+                    className={styles.textarea}
+                    name="message"
+                    ref={messageRef}
+                    maxLength={MESSAGE_MAX}
+                    aria-describedby={messageHelpId}
+                    onInput={(e) => {
+                      autoResizeMessage();
+                      if (e.currentTarget) setMessageLen(e.currentTarget.value.length);
+                      if (errors.message) {
+                        setErrors((prev) => ({ ...prev, message: "" }));
+                      }
+                    }}
+                    onFocus={autoResizeMessage}
+                    onInvalid={handleInvalid}
+                    placeholder={isTr ? "Size nasıl yardımcı olabiliriz?" : "How can we help you?"}
+                    required
+                  ></textarea>
+                  {errors.message && <span className={styles.errorMsg}>{errors.message}</span>}
+                  <div className={styles.fieldHelp} id={messageHelpId}>
+                    <span>{t.messageHelp}</span>
+                    <span className={styles.charCount}>
+                      {messageLen}/{MESSAGE_MAX}
+                    </span>
+                  </div>
+                </label>
+
+                <button type="submit" className={styles.submitBtn}>
+                  {t.submitBtn}
+                </button>
+              </form>
             </div>
-
-            <aside className={styles.infoSection}>
-              <div className={styles.infoCard}>
-                <h3 className={styles.infoTitle}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                  </svg>
-                  {t.faqTitle}
-                </h3>
-                <p className={styles.infoText}>{t.faqText}</p>
-                <a href="/faq" className={styles.infoLink}>{t.faqLink}</a>
-              </div>
-            </aside>
           </div>
+
+          <aside className={styles.infoSection}>
+            <div className={styles.infoCard}>
+              <h3 className={styles.infoTitle}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                {t.faqTitle}
+              </h3>
+              <p className={styles.infoText}>{t.faqText}</p>
+              <a href="/faq" className={styles.infoLink}>{t.faqLink}</a>
+            </div>
+          </aside>
         </div>
-      </section>
-    </SiteLayout>
+      </div>
+    </section>
   );
 }

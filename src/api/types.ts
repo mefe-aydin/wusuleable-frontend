@@ -11,8 +11,12 @@ export type ApiResult<T> = {
 export type AuthUserItem = {
   userId: number;
   email: string;
-  userTypeId: number;
+  // Backend is transitioning from numeric userTypeId -> string userType.
+  // Support both for now.
+  userType?: string; // "SUPER_ADMIN" | "ORG_ADMIN" | etc.
+  userTypeId?: number;
   token: string;
+  hasSubscription?: boolean; // Default to true for now, will be used later
 };
 
 

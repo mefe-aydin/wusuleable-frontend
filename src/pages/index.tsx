@@ -1,4 +1,3 @@
-import { SiteLayout } from "@/layouts/SiteLayout";
 import { useRouter } from "next/router";
 
 import { HomeHero } from "@/components/home/HomeHero";
@@ -16,7 +15,7 @@ export default function Home() {
   const isTr = router.locale === "tr";
 
   return (
-    <SiteLayout>
+    <>
       <HomeHero isTr={isTr} />
       <HomeTrust isTr={isTr} />
       <HomeWidgetCta isTr={isTr} />
@@ -26,6 +25,6 @@ export default function Home() {
       <HomeIntegrations isTr={isTr} />
       <HomePricingBridge isTr={isTr} />
       <HomeFaqContact isTr={isTr} />
-    </SiteLayout>
+    </>
   );
 }

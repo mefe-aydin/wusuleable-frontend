@@ -3,7 +3,10 @@ import { useRouter } from "next/router";
 import { useEffect, useId, useMemo, useState } from "react";
 
 import { LanguageDropdown } from "@/components/i18n/LanguageDropdown";
+import { SolutionsDropdown } from "@/components/layout/SolutionsDropdown";
 import { Button } from "@/components/ui/Button";
+import { UserDropdown } from "@/components/layout/UserDropdown";
+import { getAuthToken, getUserFromToken } from "@/lib/authToken";
 
 import styles from "./Header.module.scss";
 
@@ -12,7 +15,6 @@ export function Header() {
   const pathname = router.pathname;
   const locale = router.locale;
   const isTr = locale === "tr";
-  const widgetLabel = isTr ? "Erişilebilirlik Eklentisi" : "Accessibility Widget";
   const pricingLabel = isTr ? "Fiyatlandırma" : "Pricing";
   const faqLabel = isTr ? "SSS" : "FAQ";
   const contactLabel = isTr ? "İletişim" : "Contact";
@@ -22,20 +24,59 @@ export function Header() {
 
   const mobileMenuId = useId();
   const [mobileOpen, setMobileOpen] = useState(false);
+  // IMPORTANT (SSR): do not read localStorage during render, otherwise server/client markup can differ.
+  const [hydrated, setHydrated] = useState(false);
+  const [isAuthed, setIsAuthed] = useState(false);
+  const [userType, setUserType] = useState<string | null>(null);
+  const [hasSubscription, setHasSubscription] = useState(true); // Default to true for now
 
   const navItems = useMemo(
     () => [
-      { href: "/widget", label: widgetLabel },
       { href: "/pricing", label: pricingLabel },
       { href: "/faq", label: faqLabel },
       { href: "/contact", label: contactLabel },
     ],
-    [widgetLabel, pricingLabel, faqLabel, contactLabel]
+    [pricingLabel, faqLabel, contactLabel]
+  );
+
+  const mobileSolutionItems = useMemo(
+    () => [
+      { href: "/widget", label: isTr ? "Erişilebilirlik Widget’ı" : "Accessibility Widget" },
+      { href: "/seo-scanner", label: "SEO Scanner" },
+    ],
+    [isTr]
   );
 
   useEffect(() => {
     // Close menu on route change
     setMobileOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    // Client-only auth check (token is stored in localStorage).
+    // Make it reactive: update on route changes + storage changes + our custom token event.
+    const update = () => {
+      const token = getAuthToken();
+      setIsAuthed(Boolean(token));
+      if (token) {
+        const userInfo = getUserFromToken();
+        setUserType(userInfo?.userType ?? null);
+        // TODO: Fetch hasSubscription from API when available
+        setHasSubscription(true);
+      } else {
+        setUserType(null);
+        setHasSubscription(true);
+      }
+    };
+    setHydrated(true);
+    update();
+
+    window.addEventListener("storage", update);
+    window.addEventListener("wusuleable:auth-token", update);
+    return () => {
+      window.removeEventListener("storage", update);
+      window.removeEventListener("wusuleable:auth-token", update);
+    };
   }, [pathname]);
 
   useEffect(() => {
@@ -65,6 +106,9 @@ export function Header() {
 
           <nav aria-label="Primary" className={styles.desktopNav}>
             <ul className={styles.navList}>
+              <li>
+                <SolutionsDropdown />
+              </li>
               {navItems.map((item) => (
                 <li key={item.href}>
                   <Link
@@ -84,12 +128,29 @@ export function Header() {
         </div>
 
         <div className={styles.right}>
-          <Button href="/login" variant="primary">
-            {loginLabel}
-          </Button>
-          <Button href="/signup" variant="secondary">
-            {signupLabel}
-          </Button>
+          {hydrated ? (
+            isAuthed ? (
+              <>
+                {!hasSubscription && (
+                  <Button href="/pricing" variant="primary" className={styles.trialBtn}>
+                    {isTr ? "Ücretsiz Başla" : "Start free trial"}
+                  </Button>
+                )}
+                <UserDropdown userType={userType} hasSubscription={hasSubscription} />
+              </>
+            ) : (
+              <>
+                <Button href="/login" variant="primary">
+                  {loginLabel}
+                </Button>
+                <Button href="/signup" variant="secondary">
+                  {signupLabel}
+                </Button>
+              </>
+            )
+          ) : (
+            <span className={styles.authPlaceholder} aria-hidden="true" />
+          )}
           <LanguageDropdown />
         </div>
 
@@ -145,6 +206,19 @@ export function Header() {
 
           <nav aria-label="Mobile">
             <ul className={styles.mobileNavList}>
+              {mobileSolutionItems.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    aria-current={pathname === item.href ? "page" : undefined}
+                    className={styles.mobileNavLink}
+                    onClick={() => setMobileOpen(false)}
+                    tabIndex={mobileOpen ? 0 : -1}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
               {navItems.map((item) => (
                 <li key={item.href}>
                   <Link
@@ -162,12 +236,46 @@ export function Header() {
           </nav>
 
           <div className={styles.mobileActions}>
-            <Button href="/login" variant="primary" className={styles.mobileActionBtn} tabIndex={mobileOpen ? 0 : -1}>
-              {loginLabel}
-            </Button>
-            <Button href="/signup" variant="secondary" className={styles.mobileActionBtn} tabIndex={mobileOpen ? 0 : -1}>
-              {signupLabel}
-            </Button>
+            {hydrated ? (
+              isAuthed ? (
+                <>
+                  {!hasSubscription && (
+                    <Button
+                      href="/pricing"
+                      variant="primary"
+                      className={styles.mobileActionBtn}
+                      tabIndex={mobileOpen ? 0 : -1}
+                    >
+                      {isTr ? "Ücretsiz Başla" : "Start free trial"}
+                    </Button>
+                  )}
+                  <div className={styles.mobileUserMenu} tabIndex={mobileOpen ? 0 : -1}>
+                    <UserDropdown userType={userType} hasSubscription={hasSubscription} />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Button
+                    href="/login"
+                    variant="primary"
+                    className={styles.mobileActionBtn}
+                    tabIndex={mobileOpen ? 0 : -1}
+                  >
+                    {loginLabel}
+                  </Button>
+                  <Button
+                    href="/signup"
+                    variant="secondary"
+                    className={styles.mobileActionBtn}
+                    tabIndex={mobileOpen ? 0 : -1}
+                  >
+                    {signupLabel}
+                  </Button>
+                </>
+              )
+            ) : (
+              <span className={styles.mobileAuthPlaceholder} aria-hidden="true" />
+            )}
             <div className={styles.mobileLang}>
               <LanguageDropdown />
             </div>

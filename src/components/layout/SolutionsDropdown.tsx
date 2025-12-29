@@ -2,27 +2,23 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 
-import { toSupportedLocale, type SupportedLocale } from "@/lib/i18n";
-import { localeToLanguageCode, setStoredLanguageCode } from "@/lib/language";
+import styles from "./SolutionsDropdown.module.scss";
 
-import styles from "./LanguageDropdown.module.scss";
+type Item = { href: string; label: string };
 
-type LocaleOption = {
-  locale: SupportedLocale;
-  subLabel: string;
-  flagSrc: string;
-};
-
-const OPTIONS: LocaleOption[] = [
-  { locale: "tr", subLabel: "TR", flagSrc: "/flags/tr.svg" },
-  { locale: "en", subLabel: "EN", flagSrc: "/flags/en.svg" },
-];
-
-export function LanguageDropdown() {
+export function SolutionsDropdown() {
   const router = useRouter();
+  const isTr = router.locale === "tr";
+  const pathname = router.pathname;
   const detailsRef = useRef<HTMLDetailsElement | null>(null);
-  const currentLocale = toSupportedLocale(router.locale);
-  const current = OPTIONS.find((o) => o.locale === currentLocale) ?? OPTIONS[0]!;
+
+  const label = isTr ? "Çözümler" : "Solutions";
+  const items: Item[] = [
+    { href: "/widget", label: isTr ? "Erişilebilirlik Widget’ı" : "Accessibility Widget" },
+    { href: "/seo-scanner", label: "SEO Scanner" },
+  ];
+
+  const isActive = items.some((i) => i.href === pathname);
 
   useEffect(() => {
     function close() {
@@ -55,15 +51,12 @@ export function LanguageDropdown() {
 
   return (
     <details ref={detailsRef} className={styles.root}>
-      <summary className={styles.summary} aria-label="Language">
-        <img className={styles.flag} src={current.flagSrc} alt="" />
-        <span>{current.subLabel}</span>
-        <svg
-          className={styles.chev}
-          viewBox="0 0 20 20"
-          fill="none"
-          aria-hidden="true"
-        >
+      <summary
+        className={[styles.summary, isActive ? styles.summaryActive : ""].join(" ")}
+        aria-label={label}
+      >
+        <span>{label}</span>
+        <svg className={styles.chev} viewBox="0 0 20 20" fill="none" aria-hidden="true">
           <path
             d="M6 8l4 4 4-4"
             stroke="currentColor"
@@ -74,24 +67,21 @@ export function LanguageDropdown() {
         </svg>
       </summary>
 
-      <div className={styles.menu} role="menu" aria-label="Select language">
-        {OPTIONS.map((opt) => {
-          const isActive = opt.locale === currentLocale;
+      <div className={styles.menu} role="menu" aria-label={label}>
+        {items.map((item) => {
+          const active = item.href === pathname;
           return (
             <Link
-              key={opt.locale}
-              href={router.asPath}
-              locale={opt.locale}
+              key={item.href}
+              href={item.href}
               role="menuitem"
-              aria-current={isActive ? "page" : undefined}
-              className={[styles.item, isActive ? styles.itemActive : ""].join(" ")}
+              aria-current={active ? "page" : undefined}
+              className={[styles.item, active ? styles.itemActive : ""].join(" ")}
               onClick={() => {
                 if (detailsRef.current) detailsRef.current.open = false;
-                setStoredLanguageCode(localeToLanguageCode(opt.locale));
               }}
             >
-              <img className={styles.flag} src={opt.flagSrc} alt="" />
-              <span>{opt.subLabel}</span>
+              {item.label}
             </Link>
           );
         })}

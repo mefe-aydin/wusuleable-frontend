@@ -1,0 +1,95 @@
+@use "@/styles/tokens" as *;
+
+.root {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 500;
+  max-width: min(92vw, 420px);
+}
+
+.card {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.14);
+  backdrop-filter: blur(14px);
+}
+
+.text {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.title {
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+.desc {
+  font-size: 0.92rem;
+  color: rgba(15, 23, 42, 0.74);
+  line-height: 1.35;
+}
+
+.actions {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: flex-end;
+}
+
+.primary,
+.secondary {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 0.55rem 0.9rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  transition: transform 120ms ease, box-shadow 160ms ease, background 160ms ease, color 160ms ease;
+}
+
+.primary:hover,
+.secondary:hover {
+  transform: translateY(-1px);
+}
+
+.primary {
+  color: #ffffff;
+  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.25);
+}
+
+.secondary {
+  color: #2563eb;
+  background: transparent;
+  border: 1px solid rgba(37, 99, 235, 0.25);
+}
+
+@media (prefers-color-scheme: dark) {
+  .card {
+    background: rgba(11, 15, 25, 0.82);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+  }
+
+  .title {
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  .desc {
+    color: rgba(255, 255, 255, 0.66);
+  }
+
+  .secondary {
+    color: #60a5fa;
+    border-color: rgba(96, 165, 250, 0.35);
+  }
+}
+
+

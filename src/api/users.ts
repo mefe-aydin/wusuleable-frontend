@@ -6,6 +6,7 @@ export type CreateUserRequest = {
   password: string;
   passwordConfirmation: string;
   websiteUrl?: string | null;
+  languageCode?: "TR" | "EN";
 };
 
 export type CreateUserResponse = ApiResult<AuthUserItem>;
